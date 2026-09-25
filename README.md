@@ -52,7 +52,10 @@ The application adheres to clean Object-Oriented Programming principles:
   - `ResumeScorer`: Executes separate scoring functions (`calculate_structure_score()`, `calculate_skill_score()`, etc.).
 
 ---
+## 💻 How to Run on your device
+## 🚀 Live Demo
 
+👉 [Open Smart Resume Analyzer](https://smart-resume-analyzer-yx9h.onrender.com)
 ## 💻 How to Run the Project Locally
 
 ### 1. Activate Virtual Environment
