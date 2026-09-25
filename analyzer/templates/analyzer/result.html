@@ -1,0 +1,237 @@
+{% extends 'analyzer/base.html' %}
+{% load static %}
+
+{% block title %}Analysis Result - {{ analysis.filename }} | Smart Resume Analyzer{% endblock %}
+
+{% block content %}
+<div class="result-header">
+  <div>
+    <span class="badge-complete">ANALYSIS COMPLETE</span>
+    <h1 class="page-title">Your resume, decoded.</h1>
+    <p class="page-subtitle">
+      📄 <strong>{{ analysis.filename }}</strong> • Analyzed on {{ analysis.date|date:"F d, Y" }}
+    </p>
+  </div>
+
+  <div class="result-actions">
+    <a href="{% url 'download_report' analysis.pk %}" class="btn btn-secondary">Download Report</a>
+    <a href="{% url 'upload' %}" class="btn btn-primary">Analyze Another</a>
+  </div>
+</div>
+
+<!-- 3 Column Results Grid -->
+<div class="results-grid">
+  
+  <!-- LEFT CARD: OVERALL HEALTH -->
+  <div class="card health-card">
+    <div class="card-label" style="margin-bottom: 8px;">OVERALL HEALTH</div>
+    
+    <div class="score-circle">
+      <div class="score-number">{{ analysis.score }}</div>
+      <div class="score-total">/ 100</div>
+    </div>
+
+    {% if analysis.score >= 80 %}
+      <span class="status-tag status-good">Good Resume</span>
+      <p class="health-message">Your resume has a solid foundation. A few focused improvements can make it stronger.</p>
+    {% elif analysis.score >= 60 %}
+      <span class="status-tag status-avg">Average Resume</span>
+      <p class="health-message">Your resume covers the essential basics. Enhance sections and skills to stand out.</p>
+    {% else %}
+      <span class="status-tag status-needs">Needs Improvement</span>
+      <p class="health-message">Key resume sections or details are missing. Review suggestions to boost your score.</p>
+    {% endif %}
+  </div>
+
+  <!-- MIDDLE CARD: SCORE BREAKDOWN -->
+  <div class="card breakdown-card">
+    <h3>SCORE BREAKDOWN</h3>
+
+    <div class="progress-list">
+      <!-- Structure -->
+      <div class="progress-item">
+        <div class="progress-label-row">
+          <span>Structure</span>
+          <span class="progress-value">{{ analysis.score_breakdown.structure }} / 20</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width: {{ analysis.breakdown_pct.structure }}%;"></div>
+        </div>
+      </div>
+
+      <!-- Skills -->
+      <div class="progress-item">
+        <div class="progress-label-row">
+          <span>Skills</span>
+          <span class="progress-value">{{ analysis.score_breakdown.skills }} / 20</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width: {{ analysis.breakdown_pct.skills }}%;"></div>
+        </div>
+      </div>
+
+      <!-- Experience -->
+      <div class="progress-item">
+        <div class="progress-label-row">
+          <span>Experience</span>
+          <span class="progress-value">{{ analysis.score_breakdown.experience }} / 20</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width: {{ analysis.breakdown_pct.experience }}%;"></div>
+        </div>
+      </div>
+
+      <!-- Action Words -->
+      <div class="progress-item">
+        <div class="progress-label-row">
+          <span>Action Words</span>
+          <span class="progress-value">{{ analysis.score_breakdown.action_words }} / 10</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width: {{ analysis.breakdown_pct.action_words }}%;"></div>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div class="progress-item">
+        <div class="progress-label-row">
+          <span>Contact</span>
+          <span class="progress-value">{{ analysis.score_breakdown.contact }} / 10</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width: {{ analysis.breakdown_pct.contact }}%;"></div>
+        </div>
+      </div>
+
+      <!-- Keywords -->
+      <div class="progress-item">
+        <div class="progress-label-row">
+          <span>Keywords</span>
+          <span class="progress-value">{{ analysis.score_breakdown.keywords }} / 10</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width: {{ analysis.breakdown_pct.keywords }}%;"></div>
+        </div>
+      </div>
+
+      <!-- Formatting -->
+      <div class="progress-item">
+        <div class="progress-label-row">
+          <span>Formatting</span>
+          <span class="progress-value">{{ analysis.score_breakdown.formatting }} / 10</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width: {{ analysis.breakdown_pct.formatting }}%;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT CARD: QUICK SNAPSHOT -->
+  <div class="card snapshot-card">
+    <h3>QUICK SNAPSHOT</h3>
+
+    <div class="snapshot-grid">
+      <div class="snapshot-item">
+        <div class="snapshot-value">{{ analysis.word_count }}</div>
+        <div class="snapshot-label">Words</div>
+      </div>
+
+      <div class="snapshot-item">
+        <div class="snapshot-value">{{ analysis.skills|length }}</div>
+        <div class="snapshot-label">Skills</div>
+      </div>
+
+      <div class="snapshot-item">
+        <div class="snapshot-value">{{ sections_count }}</div>
+        <div class="snapshot-label">Sections</div>
+      </div>
+
+      <div class="snapshot-item">
+        <div class="snapshot-value">{{ keywords_count }}</div>
+        <div class="snapshot-label">Keywords</div>
+      </div>
+    </div>
+
+    <div class="career-box">
+      <div class="career-title">Career Field</div>
+      <div class="career-name">{{ analysis.career_field }}</div>
+      <div class="career-sub">Based on keywords found in your resume.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Details & Badges Grid -->
+<div class="details-grid">
+  <!-- Detected Skills -->
+  <div class="card">
+    <h3 class="section-title-sm">DETECTED SKILLS</h3>
+    <div class="skills-badges">
+      {% if analysis.skills %}
+        {% for skill in analysis.skills %}
+          <span class="skill-badge">{{ skill }}</span>
+        {% endfor %}
+      {% else %}
+        <p style="color: var(--text-muted); font-size: 0.9rem;">No common technical skills detected.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Resume Sections Status -->
+  <div class="card">
+    <h3 class="section-title-sm">RESUME SECTIONS</h3>
+    <div class="sections-list-grid">
+      {% for sec_name, is_present in analysis.sections_found.items %}
+        <div class="section-status-item">
+          <span>{{ sec_name }}</span>
+          {% if is_present %}
+            <span class="status-icon-valid">✅</span>
+          {% else %}
+            <span class="status-icon-warn">⚠️</span>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- Feedback & Recommendations -->
+<div class="feedback-grid">
+  <!-- Strengths -->
+  <div class="card">
+    <h3 class="section-title-sm" style="color: var(--success-color);">STRENGTHS</h3>
+    <ul class="feedback-list">
+      {% for item in analysis.strengths %}
+        <li class="feedback-item">
+          <span class="strength-icon">✓</span>
+          <span>{{ item }}</span>
+        </li>
+      {% empty %}
+        <li class="feedback-item">
+          <span class="strength-icon">✓</span>
+          <span>Clean document format uploaded</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- Improvements -->
+  <div class="card">
+    <h3 class="section-title-sm" style="color: var(--warning-color);">IMPROVE YOUR RESUME</h3>
+    <ul class="feedback-list">
+      {% for item in analysis.suggestions %}
+        <li class="feedback-item">
+          <span class="improve-icon">⚠️</span>
+          <span>{{ item }}</span>
+        </li>
+      {% empty %}
+        <li class="feedback-item">
+          <span class="strength-icon">✓</span>
+          <span>No major suggestions — your resume hits all recommended criteria!</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

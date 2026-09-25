@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Smart Resume Analyzer | Resume Intelligence{% endblock %}</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="{% static 'analyzer/css/style.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container nav-content">
+      <a href="{% url 'dashboard' %}" class="logo">
+        <span class="logo-sparkle">✨</span> smartresume
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="{% url 'dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a></li>
+        <li><a href="{% url 'history' %}" class="nav-link {% if request.resolver_match.url_name == 'history' %}active{% endif %}">History</a></li>
+        <li><a href="{% url 'about' %}" class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a></li>
+      </ul>
+
+      <div class="nav-right">
+        <a href="{% url 'upload' %}" class="btn btn-primary btn-sm">Analyze Resume</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Flash Messages -->
+  {% if messages %}
+  <div class="container messages-container">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+        <span>⚠️</span> {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div>✨ <strong>smartresume</strong> — Resume Intelligence, Made Simple</div>
+      <div>B.Tech CSE Python Mini-Project</div>
+    </div>
+  </footer>
+
+  <!-- Main JavaScript -->
+  <script src="{% static 'analyzer/js/main.js' %}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

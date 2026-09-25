@@ -1,0 +1,89 @@
+{% extends 'analyzer/base.html' %}
+{% load static %}
+
+{% block title %}About | Smart Resume Analyzer{% endblock %}
+
+{% block content %}
+<div class="page-header" style="max-width: 700px;">
+  <h1 class="page-title">Clarity for your<br>next application.</h1>
+  <p class="page-subtitle" style="margin-top: 16px; font-size: 1.15rem; line-height: 1.6;">
+    Smart Resume Analyzer is a simple Python Django academic project that analyzes resumes and provides a practical checklist for improvement.
+  </p>
+</div>
+
+<!-- 3 Step Cards -->
+<div class="about-cards-grid">
+  <div class="step-card">
+    <div class="step-number">01</div>
+    <h3 class="step-title">Extract</h3>
+    <p style="color: var(--text-muted); font-size: 0.95rem;">
+      Read PDF, Word and image resumes.
+    </p>
+  </div>
+
+  <div class="step-card">
+    <div class="step-number">02</div>
+    <h3 class="step-title">Understand</h3>
+    <p style="color: var(--text-muted); font-size: 0.95rem;">
+      Find sections, skills, contact details and keywords.
+    </p>
+  </div>
+
+  <div class="step-card">
+    <div class="step-number">03</div>
+    <h3 class="step-title">Improve</h3>
+    <p style="color: var(--text-muted); font-size: 0.95rem;">
+      Calculate a resume score and provide suggestions.
+    </p>
+  </div>
+</div>
+
+<!-- Python Concepts Used -->
+<div style="margin-top: 60px;">
+  <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 24px; color: var(--text-dark);">
+    Python concepts used
+  </h2>
+
+  <div class="concepts-grid">
+    <div class="concept-card">
+      <span style="font-size: 1.5rem; display: block; margin-bottom: 8px;">🐍</span>
+      Python Basics
+    </div>
+
+    <div class="concept-card">
+      <span style="font-size: 1.5rem; display: block; margin-bottom: 8px;">📁</span>
+      File Handling
+    </div>
+
+    <div class="concept-card">
+      <span style="font-size: 1.5rem; display: block; margin-bottom: 8px;">📦</span>
+      Modules & Packages
+    </div>
+
+    <div class="concept-card">
+      <span style="font-size: 1.5rem; display: block; margin-bottom: 8px;">⚠</span>
+      Exception Handling
+    </div>
+
+    <div class="concept-card">
+      <span style="font-size: 1.5rem; display: block; margin-bottom: 8px;">🧩</span>
+      OOP
+    </div>
+
+    <div class="concept-card">
+      <span style="font-size: 1.5rem; display: block; margin-bottom: 8px;">🔤</span>
+      Regular Expressions
+    </div>
+
+    <div class="concept-card">
+      <span style="font-size: 1.5rem; display: block; margin-bottom: 8px;">🌐</span>
+      Django
+    </div>
+
+    <div class="concept-card">
+      <span style="font-size: 1.5rem; display: block; margin-bottom: 8px;">🗄</span>
+      SQLite
+    </div>
+  </div>
+</div>
+{% endblock %}

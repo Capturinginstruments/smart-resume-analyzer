@@ -1,0 +1,75 @@
+{% extends 'analyzer/base.html' %}
+{% load static %}
+
+{% block title %}Upload Resume | Smart Resume Analyzer{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1 class="page-title">Bring your resume.</h1>
+  <p class="page-subtitle">We'll check the important parts recruiters usually notice first.</p>
+</div>
+
+<form method="post" enctype="multipart/form-data" id="uploadForm">
+  {% csrf_token %}
+  <div class="upload-grid">
+    <!-- Left: Drag and Drop Upload Area -->
+    <div>
+      <div class="drop-zone" id="dropZone">
+        <span class="upload-icon">☁</span>
+        <h2 class="drop-title">Drop your resume here</h2>
+        <p class="drop-sub">or browse from your computer</p>
+        
+        <span class="supported-formats">
+          Supported: PDF, DOCX, JPG, JPEG, PNG • Max: 5 MB
+        </span>
+
+        <!-- Hidden File Input -->
+        {{ form.resume_file }}
+      </div>
+
+      <!-- File Selected Info Card (Visible after file selection) -->
+      <div class="file-info-card" id="fileInfoCard" style="display: none;">
+        <div class="file-info-details">
+          <span class="file-icon">📄</span>
+          <div>
+            <div class="file-name" id="fileNameDisplay">resume.pdf</div>
+            <div class="file-meta" id="fileMetaDisplay">PDF File • 1.2 MB</div>
+          </div>
+        </div>
+        <button type="button" class="btn-remove" id="removeFileBtn">[ Remove ]</button>
+      </div>
+
+      <div style="margin-top: 28px;">
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 16px; font-size: 1.05rem;">
+          Analyze resume →
+        </button>
+      </div>
+    </div>
+
+    <!-- Right: Benefits Card -->
+    <div class="card benefits-card">
+      <h3>What you'll get</h3>
+
+      <div class="benefit-item">
+        <div class="benefit-num">01</div>
+        <div class="benefit-text">Resume score</div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-num">02</div>
+        <div class="benefit-text">Skills and keywords</div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-num">03</div>
+        <div class="benefit-text">Missing sections</div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-num">04</div>
+        <div class="benefit-text">Improvement suggestions</div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}

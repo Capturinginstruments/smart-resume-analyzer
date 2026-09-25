@@ -1,0 +1,48 @@
+{% extends 'analyzer/base.html' %}
+{% load static %}
+
+{% block title %}Analysis History | Smart Resume Analyzer{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1 class="page-title">Analysis history.</h1>
+  <p class="page-subtitle">Every resume you've reviewed, in one place.</p>
+</div>
+
+<div class="history-list">
+  {% for item in history_records %}
+    <div class="history-card">
+      <div class="history-left">
+        <span class="history-file-icon">📄</span>
+        <div>
+          <div class="history-filename">{{ item.filename }}</div>
+          <div class="history-meta">
+            {{ item.date|date:"d/m/Y" }} • {{ item.career_field }}
+          </div>
+        </div>
+      </div>
+
+      <div class="history-right">
+        <div class="history-score">{{ item.score }} / 100</div>
+
+        {% if item.score >= 80 %}
+          <span class="status-tag status-good" style="margin-bottom:0; font-size: 0.85rem;">Good</span>
+        {% elif item.score >= 60 %}
+          <span class="status-tag status-avg" style="margin-bottom:0; font-size: 0.85rem;">Average</span>
+        {% else %}
+          <span class="status-tag status-needs" style="margin-bottom:0; font-size: 0.85rem;">Needs Work</span>
+        {% endif %}
+
+        <a href="{% url 'result' item.pk %}" class="btn btn-outline btn-sm">View →</a>
+      </div>
+    </div>
+  {% empty %}
+    <div class="card" style="text-align: center; padding: 60px 20px;">
+      <span style="font-size: 3rem; color: var(--text-light); display: block; margin-bottom: 16px;">📂</span>
+      <h3 style="font-size: 1.3rem; margin-bottom: 8px;">No resumes analyzed yet</h3>
+      <p style="color: var(--text-muted); margin-bottom: 24px;">Upload your first resume to see your analysis history here.</p>
+      <a href="{% url 'upload' %}" class="btn btn-primary">Upload your first resume →</a>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

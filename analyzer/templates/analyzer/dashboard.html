@@ -1,0 +1,78 @@
+{% extends 'analyzer/base.html' %}
+{% load static %}
+
+{% block title %}Smart Resume Analyzer | Make Your Resume Work Harder{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+  <!-- Left Side: Hero Text & Call to Actions -->
+  <div class="hero-left">
+    <span class="hero-tag">RESUME INTELLIGENCE, MADE SIMPLE</span>
+
+    <h1 class="hero-title">
+      Make your resume<br>work harder.
+    </h1>
+
+    <p class="hero-subtitle">
+      Upload your resume and get a simple score, useful insights and clear suggestions for improvement.
+    </p>
+
+    <div class="hero-actions">
+      <a href="{% url 'upload' %}" class="btn btn-primary">Analyze my resume →</a>
+      <a href="{% url 'about' %}" class="btn btn-secondary">How it works ↗</a>
+    </div>
+
+    <div class="hero-features">
+      <div class="feature-check">
+        <span>✓</span> Files processed locally
+      </div>
+      <div class="feature-check">
+        <span>✓</span> Maximum 5 MB
+      </div>
+      <div class="feature-check">
+        <span>✓</span> PDF / DOCX / JPG / PNG
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side: Interactive Resume Score Card Illustration -->
+  <div class="hero-right">
+    <div class="illustration-card">
+      <div class="card-header-flex">
+        <div>
+          <div class="card-label">Resume Health</div>
+          <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Overall Analysis</div>
+        </div>
+        <div class="health-badge-large">82</div>
+      </div>
+
+      <div class="sample-bar-group">
+        <div class="sample-bar-item">
+          <span class="sample-bar-label">Skills</span>
+          <div class="sample-bar-track">
+            <div class="sample-bar-fill" style="width: 85%;"></div>
+          </div>
+        </div>
+
+        <div class="sample-bar-item">
+          <span class="sample-bar-label">Structure</span>
+          <div class="sample-bar-track">
+            <div class="sample-bar-fill" style="width: 90%;"></div>
+          </div>
+        </div>
+
+        <div class="sample-bar-item">
+          <span class="sample-bar-label">Keywords</span>
+          <div class="sample-bar-track">
+            <div class="sample-bar-fill" style="width: 70%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="illustration-footer">
+        <span>💡</span> Clear signals, useful actions
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
